@@ -20,7 +20,6 @@ export class JwtAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
-    console.log(request)
     if (!request) {
       throw new UnauthorizedException();
     }

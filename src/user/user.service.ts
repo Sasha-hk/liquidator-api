@@ -4,10 +4,14 @@ import { RegisterDto } from '../auth/dto/auth.dto';
 import { JWTData } from '../auth/services/jwt-internal.service';
 import { UsersTable } from '../db/schema';
 import { DrizzleService } from '../drizzle/diozzle.service';
+import { UserCacheService } from '../user-cache/user-cache.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly drizzleService: DrizzleService) {}
+  constructor(
+    private readonly drizzleService: DrizzleService,
+    private readonly userCacheService: UserCacheService,
+  ) {}
 
   async getUserByEmail(email: string) {
     return this.drizzleService.db.query.UsersTable.findFirst({
@@ -46,13 +50,24 @@ export class UserService {
   }
 
   async getUser(data: JWTData) {
+    // Try to get user from cache
+    const cachedUser = await this.userCacheService.getUserById(data.id);
+
+    if (cachedUser) {
+      delete cachedUser.password;
+      return cachedUser;
+    }
+
+    // Get user from DB
     const user = await this.getUserById(data.id);
+
     if (!user) {
       throw new BadRequestException();
     }
 
-    delete user.password;
+    await this.userCacheService.setUserWithId(user.id, user);
 
+    delete user.password;
     return user;
   }
 }
