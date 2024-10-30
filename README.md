@@ -125,3 +125,7 @@ I would use standard flow:
 Diagram:
 
 ![Social login diagram](./docs/Social-login-diagram.jpg)
+
+## For high load
+
+I would use Kubernetes to scale pods if needed also I would use distributed database
