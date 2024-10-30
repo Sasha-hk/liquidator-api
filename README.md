@@ -32,7 +32,7 @@ yarn start:docker:dev
 Run migrations in dev DB:
 
 ```sh
-yarn db:test:migrate
+yarn db:dev:migrate
 ```
 
 Run tests:
