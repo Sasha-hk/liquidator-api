@@ -18,11 +18,11 @@
     "test:cov": "dotenv -e ./.env.test -- jest --coverage",
     "test:debug": "dotenv -e ./.env.test -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "dotenv -e ./.env.test -- jest --config ./test/jest-e2e.json --coverage --runInBand --forceExit",
-    "db:dev:generate": "dotenv -e ./.env.dev -- drizzle-kit generate",
-    "db:dev:migrate": "dotenv -e ./.env.dev -- drizzle-kit migrate",
-    "db:test:migrate": "dotenv -e ./.env.test -- drizzle-kit migrate",
-    "docker:test": "docker-compose -f ./docker-compose.test.yml -p liquidator-test up -d",
-    "docker:dev": "docker-compose -f ./docker-compose.yml -p liquidator-dev up -d"
+    "db:dev:generate": "dotenv -e ./.env.dev -- drizzle-kit generate --config ./src/drizzle.config.ts",
+    "db:dev:migrate": "dotenv -e ./.env.dev -- drizzle-kit migrate --config ./src/drizzle.config.ts",
+    "db:test:migrate": "dotenv -e ./.env.test -- drizzle-kit migrate --config ./src/drizzle.config.ts",
+    "start:docker:test": "docker-compose -f ./docker-compose.test.yml -p liquidator-test up -d",
+    "start:docker:dev": "docker-compose -f ./docker-compose.dev.yml -p liquidator-dev up -d"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

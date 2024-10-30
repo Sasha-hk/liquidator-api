@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  cache:
+    image: redis:6
+    container_name: liquidator-test-cache
+    ports:
+      - 6380:6379
+  database:
+    image: postgres
+    container_name: liquidator-test-database
+    environment:
+      POSTGRES_DB: liquidator
+      POSTGRES_USER: liquidator
+      POSTGRES_PASSWORD: root
+    ports:
+      - 5433:5432
+    volumes:
+      - ./data/test/postgres:/var/lib/postgresql/data
