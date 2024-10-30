@@ -117,7 +117,7 @@ All files                 |   95.96 |    93.75 |   97.05 |   95.33 |
 
 I would use standard flow:
 1. user get URL
-2. user to to the URL
+2. user go to the URL
 3. user receive response with token
 4. user send the token to our API
 5. our API generate access JWT token end send it to a user
