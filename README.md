@@ -45,7 +45,7 @@ Then you can open [Swagger](http://localhost:8000/swagger)
 
 ## How to tests it?
 
-Install packages it not installed yet
+Install packages if not installed yet
 
 ```sh
 yarn install
