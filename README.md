@@ -69,7 +69,7 @@ Run tests:
 yarn test:e2e
 ```
 
-**Test coverage results:**
+Test coverage results:
 
 ```
 --------------------------|---------|----------|---------|---------|-------------------
