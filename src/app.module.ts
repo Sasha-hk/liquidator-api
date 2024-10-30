@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RedisModule } from '@nestjs-modules/ioredis';
 
 import { AuthModule } from './auth/auth.module';
-import { ENV } from './config';
 import { DrizzleModule } from './drizzle/drizzle.module';
+import { RedisModule } from './redis/redis.module';
 import { UserModule } from './user/user.module';
 import { UserCacheModule } from './user-cache/user-cache.module';
 
@@ -12,11 +11,8 @@ import { UserCacheModule } from './user-cache/user-cache.module';
     AuthModule,
     UserModule,
     DrizzleModule,
-    RedisModule.forRoot({
-      type: 'single',
-      url: ENV.REDIS_URL,
-    }),
     UserCacheModule,
+    RedisModule,
   ],
   controllers: [],
   providers: [],

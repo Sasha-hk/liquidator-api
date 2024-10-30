@@ -1,42 +1,10 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import {
-  DocumentBuilder,
-  SwaggerDocumentOptions,
-  SwaggerModule,
-} from '@nestjs/swagger';
+import { bootstrap } from './app';
+import { ENV } from './config';
 
-import { AppModule } from './app.module';
+async function main() {
+  const app = await bootstrap();
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  // Middlewares
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: false,
-      disableErrorMessages: false,
-    }),
-  );
-  app.enableCors();
-
-  // Swagger
-  const swaggerOption: SwaggerDocumentOptions = {
-    deepScanRoutes: true,
-  };
-  const config = new DocumentBuilder()
-    .setTitle('Liquider API')
-    .addSecurity('Bearer', {
-      type: 'http',
-      scheme: 'Bearer',
-    })
-    .setVersion('0.0.1')
-    .build();
-  const document = SwaggerModule.createDocument(app, config, swaggerOption);
-  SwaggerModule.setup('swagger', app, document);
-
-  await app.listen(process.env.PORT);
+  await app.listen(ENV.PORT);
 }
 
-bootstrap();
+main();

@@ -8,8 +8,8 @@ import type { Request } from 'express';
 
 import { JwtInternalService } from '../services/jwt-internal.service';
 
-export function extractTokenFromHeader(request: Request): string | undefined {
-  const [type, token] = request.headers.authorization?.split(' ') ?? [];
+export function extractTokenFromHeader(request?: Request): string | undefined {
+  const [type, token] = request?.headers?.authorization?.split(' ') ?? [];
   return type === 'Bearer' ? token : undefined;
 }
 
@@ -19,10 +19,6 @@ export class JwtAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-
-    if (!request) {
-      throw new UnauthorizedException();
-    }
 
     const token = extractTokenFromHeader(request);
     if (!token) {

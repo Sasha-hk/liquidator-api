@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRedis } from '@nestjs-modules/ioredis';
-import Redis from 'ioredis';
 
 import { UsersTable } from '../db/schema';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class UserCacheService {
   readonly key = 'user-id';
 
-  constructor(@InjectRedis() private readonly redis: Redis) {}
+  constructor(private readonly redisService: RedisService) {}
 
   async getUserById(id: string) {
-    const user = await this.redis.get(this.key + id);
+    const user = await this.redisService.redis.get(this.key + id);
 
     if (user) {
       return JSON.parse(user);
@@ -19,6 +18,11 @@ export class UserCacheService {
   }
 
   async setUserWithId(id: string, user: typeof UsersTable.$inferSelect) {
-    await this.redis.set(this.key + id, JSON.stringify(user), 'EX', 60);
+    await this.redisService.redis.set(
+      this.key + id,
+      JSON.stringify(user),
+      'EX',
+      60,
+    );
   }
 }

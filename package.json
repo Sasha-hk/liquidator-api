@@ -8,21 +8,23 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start": "dotenv -e ./.env.dev -- nest start",
+    "start:dev": "dotenv -e ./.env.dev -- nest start --watch",
+    "start:debug": "dotenv -e ./.env.dev -- nest start --debug --watch",
+    "start:prod": "dotenv -e ./.env.prod -- node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "test": "dotenv -e ./.env.test -- jest",
+    "test:watch": "dotenv -e ./.env.test -- jest --watch",
+    "test:cov": "dotenv -e ./.env.test -- jest --coverage",
+    "test:debug": "dotenv -e ./.env.test -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "dotenv -e ./.env.test -- jest --config ./test/jest-e2e.json --coverage --runInBand --forceExit",
+    "db:dev:generate": "dotenv -e ./.env.dev -- drizzle-kit generate",
+    "db:dev:migrate": "dotenv -e ./.env.dev -- drizzle-kit migrate",
+    "db:test:migrate": "dotenv -e ./.env.test -- drizzle-kit migrate",
+    "docker:test": "docker-compose -f ./docker-compose.test.yml -p liquidator-test up -d",
+    "docker:dev": "docker-compose -f ./docker-compose.yml -p liquidator-dev up -d"
   },
   "dependencies": {
-    "@nestjs-modules/ioredis": "^2.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
@@ -31,6 +33,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
     "drizzle-orm": "^0.35.3",
     "envalid": "^8.0.0",
     "ioredis": "^5.4.1",
@@ -65,22 +68,5 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }

@@ -8,7 +8,7 @@ import { JWTData } from '../services/jwt-internal.service';
 
 export const GetUserFromRequest = createParamDecorator(
   (_: unknown, context: ExecutionContext): JWTData => {
-    const request = context.switchToHttp().getRequest();
+    const request = context?.switchToHttp()?.getRequest();
 
     if (!request) {
       throw new UnauthorizedException();

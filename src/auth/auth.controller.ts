@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 import { LogInDto, LogInResponseDto, RegisterDto } from './dto/auth.dto';
@@ -16,6 +16,7 @@ export class AuthController {
   @ApiOkResponse({
     type: LogInResponseDto,
   })
+  @HttpCode(200)
   @Post('log-in')
   async logIn(@Body() body: LogInDto) {
     return this.authService.logIn(body);
